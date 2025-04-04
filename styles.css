@@ -116,3 +116,19 @@ ul li a{
     background-color: var(--link-bg-5);
     border-bottom: 2px solid;
 }
+
+@media screen and (max-width: 750px){
+    main{
+        width: 90%;
+    }
+    h1{
+        font-size: 1.2rem;
+    }
+    p{
+        font-size: 1.25rem;
+        line-height: 1.5rem;
+    }
+    ul li a{
+        font-size: 1.25rem;
+    }
+}
