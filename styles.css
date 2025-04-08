@@ -162,7 +162,6 @@ ul li a{
 @media screen and (max-width: 750px){
     body{
         align-items: start;
-        justify-content: baseline;
     }
     main{
         width: 90%;
