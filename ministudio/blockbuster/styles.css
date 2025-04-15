@@ -1,0 +1,58 @@
+body{
+    margin: 0;
+    position: relative;
+}
+#myVideo{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    filter: grayscale(100%);
+}
+.fa-expand-alt{
+    position: absolute;
+    top: 1vh;
+    right: 1vh;
+    font-size: 30px;
+    color: black;
+}
+.fa-expand-alt:hover{
+    cursor: pointer;
+}
+#mySection{
+    height: 100vh;
+    width: 100vw;
+}
+#copy{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#copy p{
+    position: relative;
+    width: 20px;
+}
+
+#copy p span{
+    position: absolute;
+}
+
+.moving{
+    animation: wave 4s ease-in-out infinite;
+}
+
+@keyframes wave{
+    0%, 100%{
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(20px);
+    }
+}
