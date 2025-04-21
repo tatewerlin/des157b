@@ -5,7 +5,7 @@
     const body = document.querySelector('body');
     const html = document.querySelector('html');
 
-    const links = document.querySelectorAll("#clouds ul a");
+    const links = document.querySelectorAll("section ul a");
     const arrows = document.querySelectorAll('.link-arrow');
     const switchSpans = document.querySelectorAll('#switch span');
 
@@ -25,7 +25,9 @@
     function manageLinkHover(){
         for (let i=0; i<links.length; i++){
             links[i].addEventListener('mouseover', () => {
-                arrows[i].classList.toggle('hidden');
+                if (arrows[i]){
+                    arrows[i].classList.toggle('hidden');
+                }
                 if (switchCounter%2!==0){ // darkmode colors here
                     links[i].style.color = 'var(--default-light)';
                 }
@@ -34,7 +36,9 @@
                 }
             });
             links[i].addEventListener('mouseout', () => {
-                arrows[i].classList.toggle('hidden');
+                if (arrows[i]){
+                    arrows[i].classList.toggle('hidden');
+                }
                 links[i].style.color = 'var(--offdark)';
             })
         }
