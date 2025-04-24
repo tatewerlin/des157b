@@ -43,5 +43,30 @@
         "timestamp": "2025-04-21T15:10:00Z",
         "fluid": "americano",
         "ounces": 16
+    },
+    {
+        "timestamp": "2025-04-21T17:44:00Z",
+        "fluid": "water",
+        "ounces": 12
+    },
+    {
+        "timestamp": "2025-04-21T19:35:00Z",
+        "fluid": "water",
+        "ounces": 8
+    },
+    {
+        "timestamp": "2025-04-21T20:05:00Z",
+        "fluid": "coke zero",
+        "ounces": 7.5
+    },
+    {
+        "timestamp": "2025-04-21T20:43:00Z",
+        "fluid": "water",
+        "ounces": 28
+    },
+    {
+        "timestamp": "2025-04-21T21:19:00Z",
+        "fluid": "water",
+        "ounces": 20
     }
   ]
