@@ -1,71 +1,71 @@
 [
     {
-        "timestamp": "2025-04-21T06:45:00Z",
+        "timestamp": "06:45",
         "fluid": "water",
         "ounces": 32
     },
     {
-        "timestamp": "2025-04-21T07:54:00Z",
+        "timestamp": "07:54",
         "fluid": "coffee",
         "ounces": 16
     },
     {
-        "timestamp": "2025-04-21T09:38:00Z",
+        "timestamp": "09:38",
         "fluid": "water",
         "ounces": 29
     },
     {
-        "timestamp": "2025-04-21T10:53:00Z",
+        "timestamp": "10:53",
         "fluid": "water",
         "ounces": 7
     },
     {
-        "timestamp": "2025-04-21T11:58:00Z",
+        "timestamp": "11:58",
         "fluid": "water",
         "ounces": 19
     },
     {
-        "timestamp": "2025-04-21T13:01:00Z",
+        "timestamp": "13:01",
         "fluid": "water",
         "ounces": 12
     },
     {
-        "timestamp": "2025-04-21T014:05:00Z",
+        "timestamp": "14:05",
         "fluid": "water",
         "ounces": 23
     },
     {
-        "timestamp": "2025-04-21T15:05:00Z",
+        "timestamp": "15:05",
         "fluid": "water",
         "ounces": 20
     },
     {
-        "timestamp": "2025-04-21T15:10:00Z",
+        "timestamp": "15:10",
         "fluid": "americano",
         "ounces": 16
     },
     {
-        "timestamp": "2025-04-21T17:44:00Z",
+        "timestamp": "17:44",
         "fluid": "water",
         "ounces": 12
     },
     {
-        "timestamp": "2025-04-21T19:35:00Z",
+        "timestamp": "19:35",
         "fluid": "water",
         "ounces": 8
     },
     {
-        "timestamp": "2025-04-21T20:05:00Z",
+        "timestamp": "20:05",
         "fluid": "coke-zero",
         "ounces": 7.5
     },
     {
-        "timestamp": "2025-04-21T20:43:00Z",
+        "timestamp": "20:43",
         "fluid": "water",
         "ounces": 28
     },
     {
-        "timestamp": "2025-04-21T21:19:00Z",
+        "timestamp": "21:19",
         "fluid": "water",
         "ounces": 20
     }
