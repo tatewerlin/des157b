@@ -143,7 +143,12 @@ main{
     bottom: 10%;
     font-family: 'Inter-Regular';
 }
-
+#info a{
+    color: inherit;
+}
+#info p{
+    margin: 2px 0 2px 0;
+}
 @media screen and (max-width: 750px){
     body{
         width: 100vw;
@@ -160,7 +165,7 @@ main{
         left: 3rem;;
     }
     .temp-big{
-        font-size: 10rem;
+        font-size: 25vw;
     }
     #orb{
         height: 72vh;
