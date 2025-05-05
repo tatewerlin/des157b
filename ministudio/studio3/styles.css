@@ -70,6 +70,11 @@ html{
     font-family: InterDisplay-Bold;
 }
 
+html, body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 body{
     display: flex;
     align-items: center;
@@ -140,10 +145,15 @@ main{
 }
 
 @media screen and (max-width: 750px){
-    main{
-        flex-direction: column;
+    body{
         width: 100vw;
         height: 100vh;
+    }
+    main{
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        max-width: fit-content;
     }
     #back-arrow{
         top: 3rem;
@@ -151,5 +161,10 @@ main{
     }
     .temp-big{
         font-size: 10rem;
+    }
+    #orb{
+        height: 72vh;
+        width: 72vh;
+        transform: translateY(-2rem);
     }
 }
