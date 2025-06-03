@@ -20,7 +20,7 @@
 
     // manage date and time
     const current = new Date();
-    const hour = current.getHours(); // get the hour from the  date
+    const hour =  current.getHours(); // get the hour from the  date
     const time = current.toLocaleTimeString(); // convert the date to a easier string to read
     console.log(`it is currently: ${current} current hour: ${hour}`);
     $('#time').text(time);
@@ -32,7 +32,7 @@
             const returnedTemp = data.hourly.temperature_2m[hour]; // access the temp using the hour integer as index
             const returnedTime = data.hourly.time[hour]; // access the time using the hour integer as index
             console.log(returnedTime, returnedTemp);
-            $('#temp').text(`${returnedTemp} ºF`);
+            $('#temp').text(`${returnedTemp}º F`);
             
             $('#temp').addClass('temp-big');
             $('#temp').removeClass('temp-small');

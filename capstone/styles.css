@@ -1,0 +1,192 @@
+:root{
+    --default-dark: #0b0c0b;
+    --default-green: #2cda9d;
+    --default-yellow: #fffb05;
+    --background: var(--default-yellow);
+    --low-contrast-bg: rgba(0, 0, 0, 0.1);
+    --low-contrast-fg: rgba(0, 0, 0, 0.3);
+}
+
+/* symbols (google fonts) */
+
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+  }
+
+@font-face { 
+    font-family: "InterDisplay-Light"; 
+    font-style: normal; 
+    font-weight: 400; 
+    font-display: swap; 
+    src: url("../fonts/InterDisplay-Light.woff2") format("woff2"); 
+}
+@font-face { 
+    font-family: "InterDisplay-Medium"; 
+    font-style: normal; 
+    font-weight: 500; 
+    font-display: swap; 
+    src: url("../fonts/InterDisplay-Medium.woff2") format("woff2"); 
+}
+@font-face { 
+    font-family: "InterDisplay-Bold"; 
+    font-style: normal; 
+    font-weight: 700; 
+    font-display: swap; 
+    src: url("../fonts/InterDisplay-Bold.woff2") format("woff2"); 
+}
+
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* end reset */
+
+.pointer-on-hover{
+    cursor: pointer;
+}
+
+html{
+    font-size: 12px;
+    font-family: InterDisplay-Medium;
+    background-color: var(--background);
+}
+
+main{
+    margin: auto;
+    margin-top: 2rem;
+    width: 90%;
+}
+
+.prompt-section{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-bottom: 1px solid black;
+    padding: 1rem 0;
+}
+
+.prompt-header{
+    display: flex;
+    flex-direction: row;
+    font-family: InterDisplay-Bold;
+    font-size: 1.15rem;
+}
+
+.blank-underline{
+    margin: 0 0.25rem 0 0.25rem;
+    width: 7rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-bottom: 1px solid black;
+}
+
+#prompt-2-blank{
+    padding: 0 0.25rem;
+}
+
+.cluster-container{
+    display: flex;
+    flex-flow: row wrap;
+    gap: 0.5rem;
+}
+.cluster-item{
+    border: 0.5px solid black;
+    border-radius: 20rem;
+    padding: 0.5rem;
+}
+
+
+#op-text{
+    visibility: hidden;
+}
+
+#binary-button-container{
+    display: flex;
+    flex-direction: row;
+    margin: 0.5rem;
+    gap: 1rem;
+}
+
+.advance-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: fit-content;
+    padding: 0.5rem;
+}
+
+.advance-button-inactive{
+    background-color: var(--low-contrast-bg);
+    color: var(--low-contrast-fg);
+}
+
+.advance-button-active{
+    background-color: black;
+    color: var(--background);
+}
+
+.prompt-section-inactive{
+    visibility: hidden;
+}
+.prompt-section-active{
+    visibility: visible;
+}
+
+.cluster-item-hover{
+    background-color: var(--low-contrast-bg);
+}
+
+.cluster-item-selected{
+    background-color: black;
+    color: var(--background);
+}
