@@ -7,8 +7,8 @@
     let currentPrompt; // this number is the prompt the user is currently on
 
     const clusterListStrings = {
-        reasonsfor: ['Personal finance', 'Domestic politics', 'International politics', 'Personal relationships', 'Personal health/wellbeing', 'Social media'],
-        moreof: ['Green spaces', 'Affordable healthcare', 'Respectable politicians', 'Music', 'Trustworthy news sources']
+        reasonsfor: ['AI', 'Personal finance', 'Domestic politics', 'International politics', 'Personal relationships', 'Personal health/wellbeing', 'Social media', 'Recent personal success', 'Housing costs', 'Food costs', 'Stock market patterns', 'Family member health'],
+        moreof: ['Green spaces', 'Affordable healthcare', 'Respectable politicians', 'Music', 'Trustworthy news sources', 'Bike lanes', 'Regulation on AI', 'Vegetarianism', 'Electric vehicles', 'Walkable urban spaces']
     }
 
     // store all data the user inputs
@@ -17,6 +17,10 @@
         response: []
     };
 
+    // stores booleans
+    // for each item in a new cluster, false value is appended
+    // if user selects corresponding clusterItem, value changes to true
+    // when advance button is clicked, all clusterItem textContents are pushed to sessionData if a corresponding true value is found
     let selectedClusterItems = [];
 
     const optimisticButton = document.querySelector('#optimistic-button');
@@ -59,11 +63,15 @@
         
         newAdvanceButton.appendChild(newAdvanceButtonContents);
         newAdvanceButton.classList.add('advance-button-inactive', 'advance-button', 'pointer-on-hover');
-        promptSections[currentPrompt].appendChild(newAdvanceButton);
+
+        // make sure the current prompt is not attmpting to append to a non-existant promptSection
+        if(currentPrompt < promptSections.length){
+            promptSections[currentPrompt].appendChild(newAdvanceButton);
+            document.querySelector('.advance-button').addEventListener('click', advanceButtonClick);
+        }
 
         // once added, add a new click event listener
         // run the advanceButtonClick function when clicked
-        document.querySelector('.advance-button').addEventListener('click', advanceButtonClick);
     }
 
     function binaryButtonClick(){
@@ -75,7 +83,6 @@
                     blankDefault = sessionData.q1;
                     activateAdvanceButton();
                     console.log(`binary selection made: user is ${sessionData.q1}`);
-                    logSessionData();
                 } else {
                     console.log(`currentPrompt must be 0 to interact. currentPrompt: ${currentPrompt}`);
                 }
@@ -83,6 +90,7 @@
         }
     }
 
+    // changes advanceButton styling to appear active
     function activateAdvanceButton(){
         let advanceButton = document.querySelector('.advance-button');
         if (sectionCriteriaMet){
@@ -97,7 +105,18 @@
     function advanceButtonClick(){
         // the advance button should only work if the criteria to advance for that section is met
         if (sectionCriteriaMet){
+
+            logSessionData();
+
             currentPrompt++;
+
+            if (currentPrompt+1 > promptSections.length){
+                console.log('ERROR: No additional promptSections found');
+                
+                // probably remove this eventually.
+                printData();
+            }
+
             console.log(`sectionCriteriaMet: ${sectionCriteriaMet} | currentPrompt: ${currentPrompt}`);
 
             sectionCriteriaMet = false;
@@ -136,8 +155,11 @@
         }
 
         // change the CSS styling (makes visible)
-        promptSections[current].classList.remove('prompt-section-inactive');
-        promptSections[current].classList.add('prompt-section-active');
+        // make sure the current prompt is not attmpting to modify classList of a non-existant promptSection
+        if (current < promptSections.length){
+            promptSections[current].classList.remove('prompt-section-inactive');
+            promptSections[current].classList.add('prompt-section-active');
+        }
     }
 
     function createCluster(){
@@ -176,6 +198,7 @@
         manageCluster();
     }
 
+    // cluster item hover states
     function clusterItemHoverStart(event){
         event.target.classList.add('cluster-item-hover');
     }
@@ -183,6 +206,7 @@
         event.target.classList.remove('cluster-item-hover');
     }
 
+    // Manages cluster item appearance changes, data recorded by cluster interaction
     function manageCluster(){
 
         let clusterItems = document.querySelectorAll('.cluster-item');
@@ -225,9 +249,37 @@
     }
 
     function logSessionData(){
+        console.log('logSessionData called:')
+
+        // get all of the clusterItems currently in the DOM
+        let clusterItems = document.querySelectorAll('.cluster-item');
+
+        // push the user inputs into sessionData
+        if (currentPrompt == 0){
+            sessionData.prompt.push(currentPrompt);
+            sessionData.response.push(sessionData.q1);
+        } else if( currentPrompt == 1 || currentPrompt == 2){
+            for(let i=0; i<selectedClusterItems.length; i++){
+                if (selectedClusterItems[i]){
+                    sessionData.prompt.push(currentPrompt);
+                    sessionData.response.push(clusterItems[i].textContent);
+                }
+            }
+        }
+
+        // report all session data everytime the function is called
         for (const key in sessionData){
             console.log(sessionData[key]);
         }
+    }
+
+    function printData(){
+        let newPromptP = document.createElement('p');
+        let newResponseP = document.createElement('p');
+        newPromptP.textContent = sessionData.prompt;
+        newResponseP.textContent = sessionData.response;
+        document.querySelector('main').append(newPromptP);
+        document.querySelector('main').append(newResponseP);
     }
 
     // function stack
