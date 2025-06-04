@@ -17,6 +17,9 @@
         response: []
     };
 
+    // stores the clusterItem DOM elements themselves
+    let clusterItems;
+
     // stores booleans
     // for each item in a new cluster, false value is appended
     // if user selects corresponding clusterItem, value changes to true
@@ -29,6 +32,10 @@
     const opText = document.querySelector('#op-text');
     const promptSections = document.querySelectorAll('.prompt-section');
     const prompt2Blank = document.querySelector('#prompt-2-blank');
+    const prompt2BlankUnderline = document.querySelector('#prompt-2-blank-underline');
+    const prompt2SelectionDisplay = document.querySelector('#prompt-2-selection-display');
+    const prompt3BlankUnderline = document.querySelector('#prompt-3-blank-underline');
+    const prompt3SelectionDisplay = document.querySelector('#prompt-3-selection-display');
 
     function initializePage(){
         blankDefault = "(unselected)";
@@ -69,9 +76,6 @@
             promptSections[currentPrompt].appendChild(newAdvanceButton);
             document.querySelector('.advance-button').addEventListener('click', advanceButtonClick);
         }
-
-        // once added, add a new click event listener
-        // run the advanceButtonClick function when clicked
     }
 
     function binaryButtonClick(){
@@ -206,19 +210,20 @@
         event.target.classList.remove('cluster-item-hover');
     }
 
+
     // Manages cluster item appearance changes, data recorded by cluster interaction
     function manageCluster(){
 
-        let clusterItems = document.querySelectorAll('.cluster-item');
+        clusterItems = document.querySelectorAll('.cluster-item');
 
         // iterate over the cluster items
         for(let i=0; i<clusterItems.length; i++){
 
-            // for each cluster item, push a false value to the selectedClusterItems array
+            // For each clusterItem, push a false value to the selectedClusterItems array.
+            // Each clusterItem now has an associated false value.
             selectedClusterItems.push(false);
 
             clusterItems[i].addEventListener('click', ()=>{
-                
                 //simple toggle
                 if (!selectedClusterItems[i]){
                     selectedClusterItems[i] = true;
@@ -229,23 +234,64 @@
                     clusterItems[i].classList.remove('cluster-item-selected');
                     clusterItems[i].addEventListener('mouseover', clusterItemHoverStart);
                 }
+                updateSelectionDisplays();
 
-                // everytime a cluster item is clicked, check if at least 1 is selected, using the booleans in selectedClusterItems array
+                // defines: what happens when at least 1 cluster item is selected, what happens when none is selected again
                 if (selectedClusterItems.some(value => value === true)){
                     sectionCriteriaMet = true;
                     console.log(`At least 1 clusterItem selected | sectionCriteriaMet: ${sectionCriteriaMet}`);
+                    // make the underline invisible
+                    if(currentPrompt == 1){
+                        prompt2BlankUnderline.style.visibility = 'hidden';
+                        prompt2BlankUnderline.style.position = 'absolute';
+                    } else if (currentPrompt == 2){
+                        prompt3BlankUnderline.style.visibility = 'hidden';
+                        prompt3BlankUnderline.style.position = 'absolute';
+                    }
                     activateAdvanceButton();
                 } else {
                     sectionCriteriaMet = false;
                     console.log(`No clusterItems selected | sectionCriteriaMet: ${sectionCriteriaMet}`);
+                    // make the underline visible
+                    if(currentPrompt == 1){
+                        prompt2BlankUnderline.style.visibility = 'visible';
+                        prompt2BlankUnderline.style.position = 'relative';
+                    } else if (currentPrompt == 2){
+                        prompt3BlankUnderline.style.visibility = 'visible';
+                        prompt3BlankUnderline.style.position = 'relative';
+                    }
                     activateAdvanceButton();
                 }
-
-                console.log(`selectedClusterItems: ${selectedClusterItems}`);
+                //console.log(`selectedClusterItems: ${selectedClusterItems}`);
             });
         }
+    }
 
-        console.log(`selectedClusterItems: ${selectedClusterItems}`);
+    function updateSelectionDisplays(){
+
+        // define which selection display is being targeted
+        let targetDisplay;
+        if (currentPrompt == 1){
+            targetDisplay = prompt2SelectionDisplay;
+        } else if (currentPrompt == 2){
+            targetDisplay = prompt3SelectionDisplay;
+        }
+
+        // empty targetDisplay on each new click
+        let existingSpans = targetDisplay.querySelectorAll('span');
+        for(let i = 0; i<existingSpans.length; i++){
+            existingSpans[i].remove();
+        }
+
+        for(let i = 0; i<selectedClusterItems.length; i++){
+
+            // Find each true value and repopulate targetDisplay with text corresponding to true values
+            if(selectedClusterItems[i]){
+                let newSpan = document.createElement('span');
+                newSpan.textContent = clusterItems[i].textContent;
+                targetDisplay.append(newSpan);
+            }
+        }
     }
 
     function logSessionData(){
