@@ -90,8 +90,16 @@ table {
 }
 /* end reset */
 
+/* generally applicable */
 .pointer-on-hover{
     cursor: pointer;
+}
+.display-flex-row{ /* any h2 which has an underline span MUST have this class while the underline is visible*/
+    display: flex;
+    flex-direction: row;
+}
+.display-inline-block{
+    display: inline-block;
 }
 
 html{
@@ -115,8 +123,6 @@ main{
 }
 
 .prompt-header{
-    display: flex;
-    flex-direction: row;
     font-family: InterDisplay-Bold;
     font-size: 1.15rem;
 }
@@ -130,8 +136,13 @@ main{
     border-bottom: 1px solid black;
 }
 
+.selection-display-item{
+    margin: 0 0 0 0.35rem;
+    color: var(--low-contrast-fg);
+}
+
 #prompt-2-blank{
-    padding: 0 0.25rem;
+    padding: 0 0.35rem;
 }
 
 .cluster-container{
