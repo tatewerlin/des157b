@@ -2,14 +2,13 @@
     'use strict';
     console.log('reading js');
 
-    let blankDefault; // blankSelected stores the text that is in the prompt 1 blank when no other text is being inserted
-    let sectionCriteriaMet; // this should be true when the minimum requires number of inputs to advance are selected
-    let currentPrompt; // this number is the prompt the user is currently on
-
-    const clusterListStrings = {
+    // strings used to populate cluster items
+    const clusterLists = {
         reasonsfor: ['AI', 'Personal finance', 'Domestic politics', 'International politics', 'Personal relationships', 'Personal health/wellbeing', 'Social media', 'Recent personal success', 'Housing costs', 'Food costs', 'Stock market patterns', 'Family member health'],
         moreof: ['Green spaces', 'Affordable healthcare', 'Respectable politicians', 'Music', 'Trustworthy news sources', 'Bike lanes', 'Regulation on AI', 'Vegetarianism', 'Electric vehicles', 'Walkable urban spaces']
     }
+    
+    console.log(clusterLists[0]);
 
     // store all data the user inputs
     let sessionData = {
@@ -17,347 +16,260 @@
         response: []
     };
 
-    // stores the clusterItem DOM elements themselves
-    let clusterItems;
+    // stores the data for the current section
+    let thisSectionData = [];
 
-    // stores booleans
-    // for each item in a new cluster, false value is appended
-    // if user selects corresponding clusterItem, value changes to true
-    // when advance button is clicked, all clusterItem textContents are pushed to sessionData if a corresponding true value is found
-    let selectedClusterItems = [];
+    // Stores a boolean value for each clusterItem.
+    // Value is FALSE if corresponding clusterItem is unselected. 
+    // Value is TRUE if corresponding clusterItem is selected.
+    let clusterBooleanArrays = {};
 
-    const optimisticButton = document.querySelector('#optimistic-button');
-    const pessimisticButton = document.querySelector('#pessimistic-button');
-    const binaryButtons = document.querySelectorAll('.binary-button');
-    const opText = document.querySelector('#op-text');
-    const promptSections = document.querySelectorAll('.prompt-section');
-    const prompt2Header = document.querySelector('#prompt-2-header');
-    const prompt2Blank = document.querySelector('#prompt-2-blank');
-    const prompt2BlankUnderline = document.querySelector('#prompt-2-blank-underline');
-    const prompt2SelectionDisplay = document.querySelector('#prompt-2-selection-display');
-    const prompt3Header = document.querySelector('#prompt-3-header');
-    const prompt3BlankUnderline = document.querySelector('#prompt-3-blank-underline');
-    const prompt3SelectionDisplay = document.querySelector('#prompt-3-selection-display');
+    // Global Variables
+    let currentSection;
+    const sections = document.querySelectorAll('.prompt-section');
+    let sectionCriteriaMet = [];
+    const sectionContents = document.querySelectorAll('.prompt-section-contents');
+    const headers = document.querySelectorAll('.prompt-header');
+    const clusters = document.querySelectorAll('.cluster');
+    const advanceButtons = document.querySelectorAll('.advance-button');
 
     function initializePage(){
-        blankDefault = "(unselected)";
-        sectionCriteriaMet = false;
-        currentPrompt = 0;
-        opText.textContent = blankDefault;
-        createAdvanceButton();
+        currentSection = 0;
+        updateSectionVisibility(currentSection);
+        sections.forEach( () => {
+            sectionCriteriaMet.push(false);
+        });
 
-        // make only the first prompt visible when the page loads
-        for(let i=0; i<promptSections.length; i++){
-            if (i == currentPrompt){
-                promptSections[i].classList.add('prompt-section-active');
+        // set up the boolean array for each cluster
+        clusters.forEach((_, index) => {
+            clusterBooleanArrays[`cluster${index}`] = [];
+        });
+
+        // populate each cluster AND corresponding booleanArray
+        setupCluster(clusters[0], clusterLists.reasonsfor, clusterBooleanArrays.cluster0);
+        setupCluster(clusters[1], clusterLists.moreof, clusterBooleanArrays.cluster1);
+        console.log(clusterBooleanArrays);
+        console.log(sectionCriteriaMet);
+    }
+
+    // Sections
+
+    function updateSectionVisibility(current){
+        for(let i=0; i<sections.length; i++){
+            // Each time this is called, start with all sections hidden
+            sections[i].classList.add('hidden');
+
+            // then, if the section index is less than the current section, make it visible
+            if(i <= current){
+                sections[i].classList.replace('hidden', 'visible');
+            }
+        }
+    }
+
+    function updateSectionContentVisibility(current){
+        sectionContents.forEach((sectionContents, index) =>{
+            if(current != index){
+                sectionContents.classList.add('hidden');
             } else {
-                promptSections[i].classList.add('prompt-section-inactive');
+                sectionContents.classList.remove('hidden');
             }
-        }
-
-        // log out info for troubleshooting 
-        console.log(`page initialized | currentPrompt: ${currentPrompt} | promptSections found: ${promptSections.length}`)
+        });
     }
-
-    function createAdvanceButton(){
-        let newAdvanceButton = document.createElement('p');
-        let newAdvanceButtonContents = document.createElement('span');
-
-        // this changes the text content of the advance button based on if the current promptSection is the final one
-        if (currentPrompt == promptSections.length - 1){
-            newAdvanceButtonContents.textContent = ('View Results')
-        } else {
-            newAdvanceButtonContents.textContent = ('Next');
-        }
-        
-        newAdvanceButton.appendChild(newAdvanceButtonContents);
-        newAdvanceButton.classList.add('advance-button-inactive', 'advance-button', 'pointer-on-hover');
-
-        // make sure the current prompt is not attmpting to append to a non-existant promptSection
-        if(currentPrompt < promptSections.length){
-            promptSections[currentPrompt].appendChild(newAdvanceButton);
-            document.querySelector('.advance-button').addEventListener('click', advanceButtonClick);
-        }
-    }
-
-    function binaryButtonClick(){
-        for(let i = 0; i<binaryButtons.length; i++){
-            binaryButtons[i].addEventListener('click', (event)=>{
-                if (currentPrompt == 0){
-                    sessionData.q1 = event.target.textContent;
-                    sectionCriteriaMet = true;
-                    blankDefault = sessionData.q1;
-                    activateAdvanceButton();
-                    console.log(`binary selection made: user is ${sessionData.q1}`);
-                } else {
-                    console.log(`currentPrompt must be 0 to interact. currentPrompt: ${currentPrompt}`);
-                }
-            });
-        }
-    }
-
-    // changes advanceButton styling to appear active
-    function activateAdvanceButton(){
-        let advanceButton = document.querySelector('.advance-button');
-        if (sectionCriteriaMet){
-            advanceButton.classList.replace('advance-button-inactive', 'advance-button-active');
-        } else {
-            advanceButton.classList.replace('advance-button-active', 'advance-button-inactive');
-        }
-    }
-
-    function advanceButtonClick(){
-        // the advance button should only work if the criteria to advance for that section is met
-        if (sectionCriteriaMet){
-            logSessionData();
-            currentPrompt++;
-            if (currentPrompt+1 > promptSections.length){
-                console.log('ERROR: No additional promptSections found');
-                // probably remove this eventually.
-                printData();
-            }
-            console.log(`sectionCriteriaMet: ${sectionCriteriaMet} | currentPrompt: ${currentPrompt}`);
-            sectionCriteriaMet = false;
-            if (clusterItems){
-                clusterItems.forEach((item)=>{
-                    item.remove();
-                })
-            }
-            selectedClusterItems = []; // empty the boolean array (repopulated when a new cluster is created)
-            removeAdvanceButtons();
-            activatePromptSection(currentPrompt); // make the new section active
-            createAdvanceButton(); // add the next advance button
-        } else {
-            console.log(`sectionCriteriaMet: ${sectionCriteriaMet} | currentPrompt: ${currentPrompt}`);
-        }
-    }
-
-    function removeAdvanceButtons(){
-        let advanceButtons = document.querySelectorAll('.advance-button');
-        // remove all for redundancy (there should only be one on the page at a time)
-        for(let i=0; i<advanceButtons.length; i++){
-            advanceButtons[i].remove();
-        }
-    }
-
-    function activatePromptSection(current){
-        // take currentPrompt as input
-
-        // control exactly what happnes based on which section is being activated
-        if (current == 1){
-            prompt2Blank.textContent = sessionData.q1;
-            createCluster(clusterListStrings.reasonsfor);
-        } else if (current == 2){
-            createCluster(clusterListStrings.moreof);
-        }
-
-        // change the CSS styling (makes visible)
-        // make sure the current prompt is not attmpting to modify classList of a non-existant promptSection
-        if (current < promptSections.length){
-            // swap active and inactive classes
-            promptSections[current].classList.replace('prompt-section-inactive', 'prompt-section-active');
-        }
-    }
-
-    function createCluster(clusterList){
-        let newClusterContainer = document.createElement('ul');
-        newClusterContainer.classList.add('cluster-container');
-
-        // create the cluster items--one for each string in the previously selected list
-        for(let i=0; i<clusterList.length; i++){
-            let newClusterItem = document.createElement('li');
-            newClusterItem.classList.add('cluster-item', 'pointer-on-hover');
-            newClusterItem.textContent = clusterList[i];
-
-            //newClusterItem.appendChild(newClusterItemText);
-            newClusterContainer.appendChild(newClusterItem);
-
-            // attach event listeners to each newClusterItem
-            newClusterItem.addEventListener('mouseover', clusterItemHoverStart);
-            newClusterItem.addEventListener('mouseout', clusterItemHoverEnd);
-        }
-
-        // append the cluster to the active promptSection
-        promptSections[currentPrompt].appendChild(newClusterContainer);
-
-        manageCluster();
-    }
-
-    // cluster item hover states
-    function clusterItemHoverStart(event){
-        event.target.classList.add('cluster-item-hover');
-    }
-    function clusterItemHoverEnd(event){
-        event.target.classList.remove('cluster-item-hover');
-    }
-
-
-    // Manages cluster item appearance changes, data recorded by cluster interaction
-    function manageCluster(){
-
-        clusterItems = document.querySelectorAll('.cluster-item');
-
-        // iterate over the cluster items
-        for(let i=0; i<clusterItems.length; i++){
-
-            // For each clusterItem, push a false value to the selectedClusterItems array.
-            // Each clusterItem now has an associated false value.
-            selectedClusterItems.push(false);
-
-            clusterItems[i].addEventListener('click', ()=>{
-                //simple toggle
-                if (!selectedClusterItems[i]){
-                    selectedClusterItems[i] = true;
-                    clusterItems[i].classList.add('cluster-item-selected');
-                    clusterItems[i].removeEventListener('mouseover', clusterItemHoverStart);
-                } else if (selectedClusterItems[i]){
-                    selectedClusterItems[i] = false;
-                    clusterItems[i].classList.remove('cluster-item-selected');
-                    clusterItems[i].addEventListener('mouseover', clusterItemHoverStart);
-                }
-                updateSelectionDisplays();
-
-                // defines: what happens when at least 1 cluster item is selected, what happens when none is selected again
-                if (selectedClusterItems.some(value => value === true)){ // this checks if there is at least one true value
-                    sectionCriteriaMet = true;
-                    console.log(`At least 1 clusterItem selected | clusterItems.length: ${clusterItems.length} | ${selectedClusterItems} | sectionCriteriaMet: ${sectionCriteriaMet}`);
-                    // make the underline invisible
-                    if(currentPrompt == 1){
-                        prompt2BlankUnderline.style.visibility = 'hidden';
-                        prompt2BlankUnderline.style.position = 'absolute';
-                        prompt2Header.classList.replace('display-flex-row', 'display-inline-block');
-                    } else if (currentPrompt == 2){
-                        prompt3BlankUnderline.style.visibility = 'hidden';
-                        prompt3BlankUnderline.style.position = 'absolute';
-                        prompt3Header.classList.replace('display-flex-row', 'display-inline-block');
-                    }
-                    activateAdvanceButton();
-                } else { // if there is not at least one true value
-                    sectionCriteriaMet = false;
-                    console.log(`No clusterItems selected | sectionCriteriaMet: ${sectionCriteriaMet}`);
-                    // make the underline visible
-                    if(currentPrompt == 1){
-                        prompt2BlankUnderline.style.visibility = 'visible';
-                        prompt2BlankUnderline.style.position = 'relative';
-                        prompt2Header.classList.replace('display-inline-block', 'display-flex-row');
-                    } else if (currentPrompt == 2){
-                        prompt3BlankUnderline.style.visibility = 'visible';
-                        prompt3BlankUnderline.style.position = 'relative';
-                        prompt2Header.classList.replace('display-inline-block', 'display-flex-row');
-                    }
-                    activateAdvanceButton();
-                }
-                //console.log(`selectedClusterItems: ${selectedClusterItems}`);
-            });
-        }
-    }
-
-    function updateSelectionDisplays(){
-
-        // define which selection display is being targeted
-        let targetDisplay;
-
-        if (currentPrompt == 1){
-            targetDisplay = prompt2Header;
-            //targetDisplay = prompt2SelectionDisplay;
-        } else if (currentPrompt == 2){
-            targetDisplay = prompt3Header;
-            //targetDisplay = prompt3SelectionDisplay;
-        }
-
-        // empty targetDisplay on each new click
-        let existingSpans = targetDisplay.querySelectorAll('.selection-display-item');
-        for(let i = 0; i<existingSpans.length; i++){
-            existingSpans[i].remove();
-        }
-
-        // gather strings
-        let stringToDisplay = [];
-        for(let i = 0; i < selectedClusterItems.length; i++) {
-            if(selectedClusterItems[i]){
-                stringToDisplay.push(clusterItems[i].textContent.toLowerCase());
-            }
-        }
-
-        // iterate over gathered strings
-        for(let i=0; i< stringToDisplay.length; i++){
-            let newSpan = document.createElement('span');
-            let suffix; // add a comma if not last, add nothing if so
-            if (i < stringToDisplay.length - 1){
-                suffix = ', ';
-            } else {
-                suffix = '';
-            }
-            newSpan.textContent = stringToDisplay[i] + suffix;
-            newSpan.classList.add('selection-display-item');
-            targetDisplay.append(newSpan);
-        }
-    }
-
-    function logSessionData(){
-        console.log('logSessionData called:')
-
-        // get all of the clusterItems currently in the DOM
-        let clusterItems = document.querySelectorAll('.cluster-item');
-
-        // push the user inputs into sessionData
-        if (currentPrompt == 0){
-            sessionData.prompt.push(currentPrompt);
-            sessionData.response.push(sessionData.q1);
-        } else if( currentPrompt == 1 || currentPrompt == 2){
-            for(let i=0; i<selectedClusterItems.length; i++){
-                if (selectedClusterItems[i]){
-                    sessionData.prompt.push(currentPrompt);
-                    sessionData.response.push(clusterItems[i].textContent);
-                }
-            }
-        }
-
-        // report all session data everytime the function is called
-        console.log('sessionData: ', sessionData);
-    }
-
-    function printData(){
-        let newPromptP = document.createElement('p');
-        let newResponseP = document.createElement('p');
-        newPromptP.textContent = sessionData.prompt;
-        newResponseP.textContent = sessionData.response;
-        document.querySelector('main').append(newPromptP);
-        document.querySelector('main').append(newResponseP);
-    }
-
-    // function stack
-    initializePage();
-    binaryButtonClick();
-
     
-    // binary button hover states
-    optimisticButton.addEventListener('mouseover', ()=>{
-        if (currentPrompt == 0){
-            opText.textContent = 'optimistic';
-            opText.style.visibility = 'visible';
-        }
-    });
-    optimisticButton.addEventListener('mouseout', ()=>{
-        if (currentPrompt == 0){
-            if(!sectionCriteriaMet){
-                opText.style.visibility = 'hidden';
+    // The defaultMouseOut input is grabbed by its id. 
+    // This id gets assigned to different elements. 
+    // When a new element is assigned the id, redefine the variable.
+    let defaultMouseoutInput;
+    function updateDefaultMouseoutInput(){
+        defaultMouseoutInput = document.querySelector('#default-mouseout-input');
+    }
+
+    initializePage();
+    updateDefaultMouseoutInput();
+
+
+    // Binary Buttons 
+
+    const binaryBtns = document.querySelectorAll('.binary-button');
+    const section0BlankUnderline = sections[0].querySelector('.blank-underline');
+    const currentHoverInput = document.querySelector('.current-hover-input');
+    let selection;
+
+    binaryBtns.forEach((button) => {
+
+        button.addEventListener('mouseover', (event) => {
+            // make the underline invisible
+            if (defaultMouseoutInput.classList.contains('visible')){
+                defaultMouseoutInput.classList.replace('visible', 'hidden');
+            } else {
+                defaultMouseoutInput.classList.add('hidden');
             }
-            opText.textContent = blankDefault;
-        }
+
+            currentHoverInput.textContent = event.target.textContent;
+            currentHoverInput.classList.replace('hidden', 'visible');
+        });
+
+        button.addEventListener('mouseout', ()=>{
+            defaultMouseoutInput.classList.replace('hidden', 'visible');
+            currentHoverInput.classList.replace('visible', 'hidden');
+        });
+
+        button.addEventListener('click', (event)=>{
+
+            // hide the hover input
+            currentHoverInput.classList.replace('visible', 'hidden');
+
+            // get rid of previous selection inputs
+            headers[0].querySelectorAll('.selection-input-span').forEach((span) => {
+                span.remove();
+            });
+
+            // Get the id of the current defaultMouseoutInput, then remove the id from that element
+            let idToTransfer = defaultMouseoutInput.id;
+            defaultMouseoutInput.removeAttribute('id');
+
+            // Get the text content of the selected ginary button
+            selection = event.target.textContent;
+            console.log(selection);
+
+            // Create a new span which will display the new selection
+            let selectionInputSpan = document.createElement('span');
+            selectionInputSpan.textContent = selection;
+
+            // Make it the new defaultMouseoutInput by transferring the id to it
+            selectionInputSpan.id = idToTransfer;
+            selectionInputSpan.classList.add('selection-input-span');
+            headers[0].append(selectionInputSpan);
+
+            // Update the defaultMouseoutInput variable to reference the newly created and appended one
+            updateDefaultMouseoutInput();
+
+            thisSectionData[0] = selection;
+
+            sectionCriteriaMet[0] = true;
+            if (sectionCriteriaMet[0]) {console.log('section 0 criteria met');}
+            updateAdvanceButtons();
+        });
     });
-    pessimisticButton.addEventListener('mouseover', ()=>{
-        if (currentPrompt == 0){
-            opText.textContent = 'pessimistic';
-            opText.style.visibility = 'visible';
-        }
-    });
-    pessimisticButton.addEventListener('mouseout', ()=>{
-        if (currentPrompt == 0){
-            if(!sectionCriteriaMet){
-                opText.style.visibility = 'hidden';
+
+
+    // Advance Buttons
+
+    advanceButtons.forEach((advanceButton, index) => {
+        advanceButton.addEventListener('click', () => {
+
+            // skip if criteria not met
+            if (!sectionCriteriaMet[index]) return; 
+            
+            // Manage data
+            thisSectionData.forEach(item => {
+                updateSessionData(currentSection, item);
+            });
+            
+            // Increment the current section
+            currentSection++;
+            console.log(currentSection);
+
+            // Put the binary selection in the section 1 header
+            if (currentSection === 1) {
+                updatePrompt1HeaderBlank(sessionData.response[0]);
             }
-            opText.textContent = blankDefault;
-        }
+
+            // Update visibility
+            updateSectionVisibility(currentSection);
+            updateSectionContentVisibility(currentSection);
+            manageCluster();
+        });
     });
+    
+    function updateAdvanceButtons() {
+        // Change button styling based on if sectionCriteriaMet
+        advanceButtons.forEach((advanceButton, index) => {
+            if (sectionCriteriaMet[index]) {
+                advanceButton.classList.replace('advance-button-inactive', 'advance-button-active');
+                advanceButton.classList.add('pointer-on-hover');
+            } else {
+                advanceButton.classList.replace('advance-button-active', 'advance-button-inactive');
+            }
+        });
+    }
+    
+
+    // Prompt 1 Header
+
+    // Puts the binary selection text in the section 1 header
+    const prompt1HeaderBlank = document.querySelector('#prompt-1-blank');
+    function updatePrompt1HeaderBlank(thisText){
+        prompt1HeaderBlank.textContent = thisText;
+    }
+
+    // Clusters / Cluster Items
+
+    function setupCluster(target, list, booleanArray){
+
+        list.forEach((item)=>{
+            let newClusterItem = document.createElement('li');
+            newClusterItem.textContent = item;
+            newClusterItem.classList.add('cluster-item');
+            newClusterItem.classList.add('pointer-on-hover');
+            target.append(newClusterItem);
+            booleanArray.push(false);
+        });
+    }
+
+    const clusterItems = document.querySelectorAll('.cluster-item');
+
+    function manageCluster(){
+        let theseClusterItems = sections[currentSection].querySelectorAll('.cluster-item');
+        let thisHeader = headers[currentSection];
+        let thisBoolArray = clusterBooleanArrays[`cluster${currentSection-1}`];
+
+        theseClusterItems.forEach((item, index) => {
+            item.addEventListener('mouseover', ()=>{
+                item.classList.add('selectable-hover');
+            });
+            item.addEventListener('mouseout', ()=> {
+                item.classList.remove('selectable-hover');
+            });
+            item.addEventListener('click', ()=> {
+                console.log(`item index: ${index}`)
+                
+                // toggle the corresponding boolean value
+                thisBoolArray[index] = !thisBoolArray[index];
+
+                // If at least one boolean Value is true, activate the advance button
+                // If all boolean values are false, deactivate the advance button
+                if (thisBoolArray.some(value => value === true)){
+                    sectionCriteriaMet[currentSection] = true;
+                    updateAdvanceButtons();
+                } else {
+                    sectionCriteriaMet[currentSection] = false;
+                    updateAdvanceButtons();
+                }
+
+                // All clusterItem functionality attached to booleanArray values
+                thisBoolArray.forEach((value, index) => {
+                    if(value){
+                        theseClusterItems[index].classList.add('cluster-item-selected');
+                    } else {
+                        theseClusterItems[index].classList.remove('cluster-item-selected');
+                    }
+                });
+            })
+        });
+    }
+
+    // Session Data
+
+    function updateSessionData(thisPrompt, thisResponse){
+        sessionData.prompt.push(thisPrompt);
+        sessionData.response.push(thisResponse);
+
+        // empty the temprary data store
+        thisSectionData = [];
+
+        console.log(`sessionData updated: ${sessionData.prompt}, ${sessionData.response} thisSectionData: ${thisSectionData} | NOTE: thisSectionData should be empty`);
+    }
+
+
 })();

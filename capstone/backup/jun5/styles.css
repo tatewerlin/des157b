@@ -2,10 +2,7 @@
     --default-dark: #0b0c0b;
     --default-green: #2cda9d;
     --default-yellow: #fffb05;
-    --default-light-blue: #aee8ff;
-    --default-blue: #446df6;
-    --background: var(--default-light-blue);
-    --blue-fg: var(--default-blue);
+    --background: var(--default-yellow);
     --low-contrast-bg: rgba(0, 0, 0, 0.1);
     --low-contrast-fg: rgba(0, 0, 0, 0.3);
 }
@@ -20,6 +17,7 @@
     'opsz' 24
   }
 
+  /* fix pathing */
 @font-face { 
     font-family: "InterDisplay-Light"; 
     font-style: normal; 
@@ -93,128 +91,114 @@ table {
 }
 /* end reset */
 
-/* Generally Applicable Styling*/
+/* generally applicable */
 .pointer-on-hover{
     cursor: pointer;
 }
-.hidden{
-    visibility: hidden;
-    position: absolute;
+.display-flex-row{ /* any h2 which has an underline span MUST have this class while the underline is visible*/
+    display: flex;
+    flex-direction: row;
 }
-.visible{
-    visibility: visible;
-    position: relative;
-}
-.low-contrast{
-    color: var(--low-contrast-fg);
-}
-.selectable-hover{
-    background-color: var(--low-contrast-bg);
-}
-.section-divider-bottom{
-    border-bottom: 0.5px solid var(--blue-fg);
+.display-inline-block{
+    display: inline-block;
 }
 
-/* Default Element Styling */
 html{
     font-size: 12px;
     font-family: InterDisplay-Medium;
     background-color: var(--background);
 }
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--background); 
-}
+
 main{
-    width: 90vw;
+    margin: auto;
+    margin-top: 2rem;
+    width: 90%;
 }
 
-
-
-/* Prompt Section Styling */
 .prompt-section{
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    border-bottom: 0.5px solid black;
     padding: 1rem 0;
 }
 
-/* header styling */
 .prompt-header{
-    color: var(--blue-fg);
     font-family: InterDisplay-Bold;
-    font-size: 2rem;
-    white-space: no-wrap;
-}
-.blank-underline{
-    display: inline-block;
-    width: 10rem;
-    border-bottom: 2px var(--blue-fg) solid;
+    font-size: 1.15rem;
 }
 
-/* section contents styling */
-.prompt-section-contents{
+.blank-underline{
+    margin: 0 0.25rem 0 0.25rem;
+    width: 7rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
+    border-bottom: 1px solid black;
+}
+
+.selection-display-item{
+    margin: 0 0 0 0.35rem;
+    color: var(--low-contrast-fg);
+}
+
+#prompt-2-blank{
+    padding: 0 0.35rem;
+}
+
+.cluster-container{
+    display: flex;
+    flex-flow: row wrap;
+    gap: 0.5rem;
+}
+.cluster-item{
+    border: 0.5px solid black;
+    border-radius: 20rem;
+    padding: 0.5rem;
+}
+
+
+#op-text{
+    visibility: hidden;
+}
+
+#binary-button-container{
+    display: flex;
+    flex-direction: row;
+    margin: 0.5rem;
     gap: 1rem;
 }
 
-/* Binary Buttons */
-.binary-button{
-    display: block;
-    border: 0.5px var(--blue-fg) solid;
-    padding: 1rem;
-}
-.binary-button:first-of-type{
-    border-top-left-radius: 20rem;
-    border-bottom-left-radius: 20rem;
-}
-.binary-button:last-of-type{
-    border-top-right-radius: 20rem;
-    border-bottom-right-radius: 20rem;
-}
-.binary-button-container{
-    display: flex;
-    flex-direction: row;
-}
-
-/* cluster styling */
-.cluster{
-    display: flex;
-    flex-flow: row wrap;
-    gap: 0.25rem;
-}
-.cluster-item{
-    max-width: fit-content;
-    padding: 0.5rem 0.75rem;
-    border: 0.5px solid var(--low-contrast-fg);
-    border-radius: 20rem;
-    white-space: nowrap;
-}
-.cluster-item-selected{
-    background-color: var(--default-blue);
-    color: var(--default-light-blue);
-}
-
-/* button styling */
 .advance-button{
-    display: block;
-    padding: 0.5rem 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     max-width: fit-content;
+    padding: 0.5rem;
 }
+
 .advance-button-inactive{
     background-color: var(--low-contrast-bg);
     color: var(--low-contrast-fg);
 }
 
 .advance-button-active{
+    background-color: black;
+    color: var(--background);
+}
+
+.prompt-section-inactive{
+    visibility: hidden;
+}
+.prompt-section-active{
+    visibility: visible;
+}
+
+.cluster-item-hover{
+    background-color: var(--low-contrast-bg);
+}
+
+.cluster-item-selected{
     background-color: black;
     color: var(--background);
 }
