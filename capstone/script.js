@@ -229,6 +229,10 @@
             updateSectionVisibility(currentSection);
             updateSectionContentVisibility(currentSection);
             manageCluster();
+
+            // add media query classes
+            document.querySelector('body').classList.add('body-mobile-cluster-screen');
+            document.querySelector('main').classList.add('main-mobile-cluster-screen');
         });
     });
     

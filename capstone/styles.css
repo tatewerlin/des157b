@@ -144,6 +144,7 @@ body {
     align-items: center;
     justify-content: center;
     background-color: var(--background); 
+    overflow-y: hidden;
 }
 main{
     width: 90vw;
@@ -158,6 +159,7 @@ main{
     gap: 1rem;
     padding: 1rem 0;
     margin: 1rem 0 0 0;
+    overflow: hidden;
 }
 .collapsed{
     margin: 0;
@@ -261,4 +263,14 @@ main{
 .advance-button-active{
     background-color: black;
     color: var(--background);
+}
+
+@media (max-width: 768px) {
+    .body-mobile-cluster-screen{
+        align-items: start;
+        margin: 2rem 0 4rem 0;
+    }
+    .main-mobile-cluster-screen{
+        width: 94vw;
+    }
 }
