@@ -10,8 +10,9 @@
 
     // strings used to populate cluster items
     const clusterLists = {
-        reasonsfor: ['AI', 'Personal finance', 'Domestic politics', 'International politics', 'Personal relationships', 'Personal health/wellbeing', 'Social media', 'Recent personal success', 'Housing costs', 'Food costs', 'Stock market patterns', 'Family member health'],
-        moreof: ['Green spaces', 'Affordable healthcare', 'Respectable politicians', 'Music', 'Trustworthy news sources', 'Bike lanes', 'Regulation on AI', 'Vegetarianism', 'Electric vehicles', 'Walkable urban spaces']
+        reasonsfor: ['Global conflict/affairs', 'Recent news/current events', 'Access to nutrition', 'Access to outdoors/nature', 'Job security', 'Personal finance', 'Political polarization', 'Government transparency', 'Cost of living', 'Trust in future generations', 'Personal health/wellbeing', 'Access to mental health care', 'Recent personal success', 'Belief/trust in humanity', 'Housing affordability', 'Pollution levels', 'Government corruption', 'Access to education', 'Sense of belonging', 'Personal education', 'Trust in neighbors/community', 'Crime rates', 'Trust in government', 'Family relationships', 'National security', 'Online safety', 'Impacts of AI', 'Access to healthcare', 'Support for creative expression', 'Representation in media', 'International relations', 'Migration issues', 'Global cooperation', 'Acceptance/inclusion of diversity', 'Environmental protection', 'Technological advancements', 'Financial freedom', 'Work/career success', 'Trust in myself'],
+
+        moreof: ['More public parks', 'Increased access to healthcare', 'A shift in political climate', 'Increased cultural diversity', 'Increased access to education', 'Less discrimination/prejudice', 'More art', 'Trustworthier news sources', 'More bike lanes', 'Improved urban spaces', 'Increased regulation on A.I.', 'Higher quality food', 'More public transit', 'Increased city walkability', 'Decreased A.I. use', 'Increased A.I. use', 'Better allocation of public funds', 'Cheaper necessities (housing, food, etc.)', 'Better representation of diversity', 'Equal opportunities for financial success', 'Decreased social media use', 'Less war', 'A fairer criminal justice system', 'Better conservation of nature', 'Equal oppurtunities regardless of identity', 'Stronger sense of community', 'Less polution', 'Cleaner air', 'Cleaner water', 'Reduced systemic inequality', 'More ethical social media use', 'More stable jobs/incomes', 'Better work/life balance', 'Less government corruption', 'Greater accountability in leaders', 'More government transparency', 'More creativity', 'More support for creative expression', 'More support for elderly', 'Better data privacy', 'More ethical technology development']
     }
     
     console.log(clusterLists[0]);
@@ -30,6 +31,12 @@
     // Value is TRUE if corresponding clusterItem is selected.
     let clusterBooleanArrays = {};
 
+    // 0 = marks any response to prompt 0
+    // 1 = marks response to prompt 1 given "optimistic"
+    // 2 = marks response to prompt 1 given "pessimistic"
+    // 3 = marks any response to prompt 2
+    let promptRespondingTo; 
+
     // Global Variables
     let currentSection;
     const sections = document.querySelectorAll('.prompt-section');
@@ -41,6 +48,7 @@
 
     function initializePage(){
         currentSection = 0;
+        promptRespondingTo = 0; console.log(`promptRespondingTo: ${promptRespondingTo}`);
         updateSectionVisibility(currentSection);
         sections.forEach( () => {
             sectionCriteriaMet.push(false);
@@ -68,6 +76,10 @@
             // then, if the section index is less than the current section, make it visible
             if(i <= current){
                 sections[i].classList.replace('hidden', 'visible');
+            }
+
+            if(i<current){
+                sections[i].classList.add('collapsed');
             }
         }
     }
@@ -104,6 +116,9 @@
 
         button.addEventListener('mouseover', (event) => {
 
+            // button styling
+            button.classList.add('selectable-hover');
+
             // make the underline invisible
             if (defaultMouseoutInput.classList.contains('visible')){
                 defaultMouseoutInput.classList.replace('visible', 'hidden');
@@ -116,11 +131,25 @@
         });
 
         button.addEventListener('mouseout', ()=>{
+
+            // button styling
+            button.classList.remove('selectable-hover');
+
             defaultMouseoutInput.classList.replace('hidden', 'visible');
             currentHoverInput.classList.replace('visible', 'hidden');
         });
 
         button.addEventListener('click', (event)=>{
+
+            // button selected styling
+            // can use the 'cluster-item-selected' class here because it is purely stylistic
+            binaryBtns.forEach((item)=>{
+                if(item == event.target){
+                    item.classList.add('cluster-item-selected');
+                } else {
+                    item.classList.remove('cluster-item-selected');
+                }
+            });
 
             // hide the hover input
             currentHoverInput.classList.replace('visible', 'hidden');
@@ -169,15 +198,27 @@
 
             // skip if criteria not met
             if (!sectionCriteriaMet[index]) return; 
+
+            let section1selection = thisSectionData[0];
             
             // Manage data
             thisSectionData.forEach(item => {
-                updateSessionData(currentSection, item);
+                updateSessionData(promptRespondingTo, item);
             });
+
+            // Determine new promptRespondingTo value
+            if (currentSection === 0 && section1selection === 'optimistic'){
+                promptRespondingTo = 1;
+            } else if (currentSection === 0 && section1selection === 'pessimistic'){
+                promptRespondingTo = 2;
+            } else {
+                promptRespondingTo = 3;
+            }
             
             // Increment the current section
             currentSection++;
             console.log(currentSection);
+
 
             // Put the binary selection in the section 1 header
             if (currentSection === 1) {
@@ -334,7 +375,7 @@
         Parse.Object.saveAll(answersToSave)
             .then((savedAnswers) => {
                 console.log("All answers saved successfully!");
-                alert("Session data saved successfully!");
+                alert("Thanks for your help!");
                 // You could also redirect the user or show a summary here.
             })
             .catch((error) => {

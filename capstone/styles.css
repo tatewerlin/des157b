@@ -2,12 +2,12 @@
 
     /* Color */
     --default-dark: #0b0c0b;
-    --default-green: #2cda9d;
     --default-yellow: #fffb05;
     --default-light-blue: #aee8ff;
     --default-blue: #446df6;
-    --low-contrast-bg: rgba(0, 0, 0, 0.1);
-    --low-contrast-fg: rgba(0, 0, 0, 0.3);
+    --default-orange: #ff312e;
+    --low-contrast-bg: rgba(44, 32, 208, 0.1);
+    --low-contrast-fg: rgba(44, 32, 208, 0.4);
 
     /* Size */
     --h2-font-size: 2rem;
@@ -157,6 +157,21 @@ main{
     flex-direction: column;
     gap: 1rem;
     padding: 1rem 0;
+    margin: 1rem 0 0 0;
+}
+.collapsed{
+    margin: 0;
+    padding: 0.25rem 0 0.25rem 0;
+}
+.collapsed .prompt-header{
+    font-family: InterDisplay-Medium;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    max-width: 50%;
+    color: var(--low-contrast-fg);
+}
+.collapsed .prompt-header span{
+    font-family: InterDisplay-Bold;
 }
 
 /* header styling */
@@ -180,7 +195,15 @@ main{
 .prompt-section-contents{
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
+}
+.tooltip{
+    color: var(--default-blue);
+    font-size: 1.25rem;
+    padding: 0.25rem;
+}
+.tooltip .strong{
+    font-family: InterDisplay-Bold;
 }
 
 /* Binary Buttons */
