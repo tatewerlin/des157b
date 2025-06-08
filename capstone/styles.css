@@ -265,6 +265,7 @@ main{
     color: var(--background);
 }
 
+/* Mobile Specific */
 @media (max-width: 768px) {
     .body-mobile-cluster-screen{
         align-items: start;
@@ -272,5 +273,8 @@ main{
     }
     .main-mobile-cluster-screen{
         width: 94vw;
+    }
+    .collapsed .prompt-header{
+        max-width: 100%;
     }
 }
