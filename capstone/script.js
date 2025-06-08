@@ -50,6 +50,9 @@
         currentSection = 0;
         promptRespondingTo = 0; console.log(`promptRespondingTo: ${promptRespondingTo}`);
         updateSectionVisibility(currentSection);
+
+        // hide prompt section contents (prevents horizaontal scroll on mobile)
+        updateSectionContentVisibility(currentSection);
         sections.forEach( () => {
             sectionCriteriaMet.push(false);
         });
@@ -233,9 +236,6 @@
             // add media query classes
             document.querySelector('body').classList.add('body-mobile-cluster-screen');
             document.querySelector('main').classList.add('main-mobile-cluster-screen');
-
-            // check if this works!
-            window.scrollTo({ top: 0, behavior: "smooth" });
         });
     });
     
