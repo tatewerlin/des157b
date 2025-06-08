@@ -91,13 +91,13 @@
     // Binary Buttons 
 
     const binaryBtns = document.querySelectorAll('.binary-button');
-    const section0BlankUnderline = sections[0].querySelector('.blank-underline');
     const currentHoverInput = document.querySelector('.current-hover-input');
     let selection;
 
     binaryBtns.forEach((button) => {
 
         button.addEventListener('mouseover', (event) => {
+
             // make the underline invisible
             if (defaultMouseoutInput.classList.contains('visible')){
                 defaultMouseoutInput.classList.replace('visible', 'hidden');
@@ -138,7 +138,10 @@
 
             // Make it the new defaultMouseoutInput by transferring the id to it
             selectionInputSpan.id = idToTransfer;
+
+            // Classes
             selectionInputSpan.classList.add('selection-input-span');
+
             headers[0].append(selectionInputSpan);
 
             // Update the defaultMouseoutInput variable to reference the newly created and appended one
@@ -212,6 +215,7 @@
             newClusterItem.textContent = item;
             newClusterItem.classList.add('cluster-item');
             newClusterItem.classList.add('pointer-on-hover');
+            newClusterItem.classList.add('cell');
             target.append(newClusterItem);
             booleanArray.push(false);
         });
@@ -223,6 +227,7 @@
         let theseClusterItems = sections[currentSection].querySelectorAll('.cluster-item');
         let thisHeader = headers[currentSection];
         let thisBoolArray = clusterBooleanArrays[`cluster${currentSection-1}`];
+        let thisBlankUnderline = sections[currentSection].querySelector('.blank-underline');
 
         theseClusterItems.forEach((item, index) => {
             item.addEventListener('mouseover', ()=>{
@@ -233,6 +238,9 @@
             });
             item.addEventListener('click', ()=> {
                 console.log(`item index: ${index}`)
+
+                // Reset thisSectionData
+                thisSectionData = [];
                 
                 // toggle the corresponding boolean value
                 thisBoolArray[index] = !thisBoolArray[index];
@@ -241,9 +249,12 @@
                 // If all boolean values are false, deactivate the advance button
                 if (thisBoolArray.some(value => value === true)){
                     sectionCriteriaMet[currentSection] = true;
+                    thisBlankUnderline.classList.remove('visible');
+                    thisBlankUnderline.classList.add('hidden');
                     updateAdvanceButtons();
                 } else {
                     sectionCriteriaMet[currentSection] = false;
+                    thisBlankUnderline.classList.replace('hidden', 'visible');
                     updateAdvanceButtons();
                 }
 
@@ -251,12 +262,41 @@
                 thisBoolArray.forEach((value, index) => {
                     if(value){
                         theseClusterItems[index].classList.add('cluster-item-selected');
+                        thisSectionData.push(theseClusterItems[index].textContent);
                     } else {
                         theseClusterItems[index].classList.remove('cluster-item-selected');
                     }
                 });
+
+                modifyHeader();
             })
         });
+
+        // Adds the strigns of selected clusterItems to the header
+        // This function is nested because it uses the local variables
+        function modifyHeader(){
+
+            // Remove all previously added to prevent duplicates
+            thisHeader.querySelectorAll('.new-span-handle').forEach((span) => { span.remove()});
+
+            // If a true value is found, create a span with the associated string and add it to the header
+            thisBoolArray.forEach((value, index) => {
+                if(value){
+                    let newSpan = document.createElement('span');
+                    newSpan.textContent = theseClusterItems[index].textContent.toLowerCase();
+                    newSpan.classList.add('new-span-handle');
+                    thisHeader.append(newSpan);
+                }
+            });
+
+            // Add a comma to all but the last span
+            let arrayOfSpans = thisHeader.querySelectorAll('.new-span-handle');
+            arrayOfSpans.forEach((span, index) => {
+                if (index < arrayOfSpans.length - 1){
+                    span.textContent += ', ';
+                }
+            });
+        }
     }
 
     // Session Data

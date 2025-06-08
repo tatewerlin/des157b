@@ -1,13 +1,20 @@
 :root{
+
+    /* Color */
     --default-dark: #0b0c0b;
     --default-green: #2cda9d;
     --default-yellow: #fffb05;
     --default-light-blue: #aee8ff;
     --default-blue: #446df6;
-    --background: var(--default-light-blue);
-    --blue-fg: var(--default-blue);
     --low-contrast-bg: rgba(0, 0, 0, 0.1);
     --low-contrast-fg: rgba(0, 0, 0, 0.3);
+
+    /* Size */
+    --h2-font-size: 2rem;
+
+    /* Dependent */
+    --background: var(--default-light-blue);
+    --blue-fg: var(--default-blue);
 }
 
 /* symbols (google fonts) */
@@ -114,6 +121,12 @@ table {
 .section-divider-bottom{
     border-bottom: 0.5px solid var(--blue-fg);
 }
+.cell{
+    color: var(--default-blue);
+    font-size: 1.3rem;
+    padding: 1rem;
+}
+
 
 /* Default Element Styling */
 html{
@@ -150,13 +163,17 @@ main{
 .prompt-header{
     color: var(--blue-fg);
     font-family: InterDisplay-Bold;
-    font-size: 2rem;
+    font-size: var(--h2-font-size);
+    line-height: calc(var(--h2-font-size) * 1.25);
     white-space: no-wrap;
 }
 .blank-underline{
     display: inline-block;
-    width: 10rem;
+    width: calc(var(--h2-font-size) * 5.5);
     border-bottom: 2px var(--blue-fg) solid;
+}
+.new-span-handle{
+    color: var(--low-contrast-fg);
 }
 
 /* section contents styling */
@@ -205,9 +222,13 @@ main{
 
 /* button styling */
 .advance-button{
-    display: block;
-    padding: 0.5rem 0.75rem;
-    max-width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    font-size: 2rem;
+    border-radius: 20rem;
 }
 .advance-button-inactive{
     background-color: var(--low-contrast-bg);
