@@ -51,8 +51,10 @@
         promptRespondingTo = 0; console.log(`promptRespondingTo: ${promptRespondingTo}`);
         updateSectionVisibility(currentSection);
 
-        // hide prompt section contents (prevents horizaontal scroll on mobile)
+        // hide prompt section contents (prevents unwanted horizaontal scroll on mobile)
         updateSectionContentVisibility(currentSection);
+
+        // set all sectionCriteriaMet values to false
         sections.forEach( () => {
             sectionCriteriaMet.push(false);
         });
@@ -236,6 +238,8 @@
             // add media query classes
             document.querySelector('body').classList.add('body-mobile-cluster-screen');
             document.querySelector('main').classList.add('main-mobile-cluster-screen');
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
         });
     });
     
