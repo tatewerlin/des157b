@@ -2,6 +2,12 @@
     'use strict';
     console.log('reading js');
 
+    // Initialize Parse
+    Parse.initialize("cyVXM5WPBfjRlMKP9Uk0av2GkD0uh8UGHcqOfZn0", "Xt9nH0lavO2iBdF3x0Aqf8cAA8wmMOVL5RDFVpms");
+    // Replace with your app’s server URL from Back4App:
+    Parse.serverURL = 'https://parseapi.back4app.com/';
+
+
     // strings used to populate cluster items
     const clusterLists = {
         reasonsfor: ['AI', 'Personal finance', 'Domestic politics', 'International politics', 'Personal relationships', 'Personal health/wellbeing', 'Social media', 'Recent personal success', 'Housing costs', 'Food costs', 'Stock market patterns', 'Family member health'],
@@ -310,6 +316,33 @@
 
         console.log(`sessionData updated: ${sessionData.prompt}, ${sessionData.response} thisSectionData: ${thisSectionData} | NOTE: thisSectionData should be empty`);
     }
+
+    const finalAdvanceButton = document.querySelector('#final-advance-button');
+    finalAdvanceButton.addEventListener('click', () => {
+
+        // Save all answers at once
+        const Answer = Parse.Object.extend("Answer");
+        const answersToSave = [];
+    
+        for (let i = 0; i < sessionData.prompt.length; i++) {
+            const newAnswer = new Answer();
+            newAnswer.set("prompt", sessionData.prompt[i]);
+            newAnswer.set("response", sessionData.response[i]);
+            answersToSave.push(newAnswer);
+        }
+    
+        Parse.Object.saveAll(answersToSave)
+            .then((savedAnswers) => {
+                console.log("All answers saved successfully!");
+                alert("Session data saved successfully!");
+                // You could also redirect the user or show a summary here.
+            })
+            .catch((error) => {
+                console.error("Error saving answers:", error.message);
+                alert("Oops! Something went wrong: " + error.message);
+            });
+    });
+    
 
 
 })();
