@@ -239,6 +239,7 @@
             document.querySelector('body').classList.add('body-mobile-cluster-screen');
             document.querySelector('main').classList.add('main-mobile-cluster-screen');
 
+            // Window scrolls back to top (for mobile)
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
     });
@@ -369,8 +370,24 @@
         console.log(`sessionData updated: ${sessionData.prompt}, ${sessionData.response} thisSectionData: ${thisSectionData} | NOTE: thisSectionData should be empty`);
     }
 
+    // After Submitting Data
+
+    function afterDataSubmitted(){
+
+        const endPrompt = document.querySelector('#end-prompt');
+
+        // display the endPrompt
+        endPrompt.classList.replace('hidden', 'visible');
+    }
+
     const finalAdvanceButton = document.querySelector('#final-advance-button');
     finalAdvanceButton.addEventListener('click', () => {
+
+        // Hide all prompt sections
+        sections.forEach((section, index) => {
+            section.classList.add('hidden');
+            headers[index].classList.add('hidden');
+        });
 
         // Save all answers at once
         const Answer = Parse.Object.extend("Answer");
@@ -386,8 +403,8 @@
         Parse.Object.saveAll(answersToSave)
             .then((savedAnswers) => {
                 console.log("All answers saved successfully!");
-                alert("Thanks for your help!");
                 // You could also redirect the user or show a summary here.
+                afterDataSubmitted();
             })
             .catch((error) => {
                 console.error("Error saving answers:", error.message);
