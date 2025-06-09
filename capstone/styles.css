@@ -182,7 +182,6 @@ main{
     font-family: InterDisplay-Bold;
     font-size: var(--h2-font-size);
     line-height: calc(var(--h2-font-size) * 1.25);
-    white-space: no-wrap;
 }
 .blank-underline{
     display: inline-block;
