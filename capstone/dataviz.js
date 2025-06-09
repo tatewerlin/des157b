@@ -15,7 +15,6 @@
     const totalResponsesByCategory = [];
     let totalResponses = 0;
 
-
     // Initialize Parse
     Parse.initialize("cyVXM5WPBfjRlMKP9Uk0av2GkD0uh8UGHcqOfZn0", "Xt9nH0lavO2iBdF3x0Aqf8cAA8wmMOVL5RDFVpms");
     Parse.serverURL = 'https://parseapi.back4app.com/';
@@ -39,6 +38,8 @@
                 data[index] = {};
                 data[index].prompt = prompt;
                 data[index].response = response;
+
+                console.log(results);
 
             });
 
@@ -106,7 +107,7 @@
 
             // add the percentage to screen
             const percentDisplay = document.querySelector('.percent-display');
-            percentDisplay.textContent = Math.trunc(percentOptimistic);
+            percentDisplay.textContent = `${Math.trunc(percentOptimistic)}%`;
 
 
             Object.keys(countedResponses).forEach(prompt=> {
@@ -151,7 +152,7 @@
             const rgbValues = [
                 '92, 255, 122', 
                 '255, 105, 66',
-                '255, 105, 66'
+                '186, 117, 255'
             ];
             const maxValues = [];
             // get the maximum frequencies for each prompt

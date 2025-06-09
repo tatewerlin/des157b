@@ -7,11 +7,14 @@
     --default-light-blue: #aee8ff;
     --default-blue: #446df6;
     --default-orange: rgb(255, 104, 66);
+    --default-purple: rgb(186, 117, 255);
     --low-contrast-bg: rgba(44, 32, 208, 0.1);
     --low-contrast-fg: rgba(44, 32, 208, 0.4);
 
     /* Size */
     --h2-font-size: 2rem;
+    --mobile-master-gap: 5rem;
+    --secondary-gap: 1rem;
 
     /* Dependent */
     --background: var(--default-light-blue);
@@ -142,14 +145,30 @@ main{
     max-width: 1200px;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 4rem;
     overflow: hidden;
 }
 h1{
     font-size: 3rem;
+    font-family: InterDisplay-Bold;
 }
 h2{
     font-size: var(--h2-font-size);
+    font-family: InterDisplay-Bold;
+}
+
+.percent-display{
+    color: var(--default-purple);
+}
+
+.response-count-display{
+    font-family: InterDisplay-Light;
+    font-size: 1.25rem;
+    padding: 0.5rem;
+    max-width: fit-content;
+    color: var(--default-blue);
+    border: 0.5px solid var(--default-blue);
+    border-radius: 0.25rem;
 }
 
 /* Rows */
@@ -157,15 +176,25 @@ h2{
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: var(--secondary-gap);
+    margin: 3rem 0 3rem 0;
 }
 #row-2{
     display: flex;
     flex-direction: row;
-    gap: 2rem;
+    gap: 3rem;
     width: 100%;
 }
 #row-2 div{
     flex: 1;
+}
+#row-3 .row-contents{
+    max-width: 60%;
+}
+.row-contents{
+    display: flex;
+    flex-direction: column;
+    gap: var(--secondary-gap);
 }
 
 /* category list styling */
@@ -193,4 +222,16 @@ h2{
 /* Mobile Specific */
 @media (max-width: 768px) {
     /* mobile styling here. delete if none */
+    main{
+        width: 94vw;
+        gap: var(--mobile-master-gap);
+    }
+    #row-1{
+        align-items: start;
+        margin-left: 1rem;
+    }
+    #row-2{
+        flex-direction: column;
+        gap: var(--mobile-master-gap);
+    }
 }
