@@ -271,7 +271,8 @@ main{
     align-items: center;
     justify-content: center;
     gap: 2rem;
-    width: 100%;
+    width: 80%;
+    margin: auto;
 }
 #end-prompt h2{
     font-size: var(--h2-font-size);

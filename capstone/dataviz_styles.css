@@ -108,6 +108,9 @@ table {
 .pointer-on-hover{
     cursor: pointer;
 }
+.default-on-hover{
+    cursor: default;
+}
 .hidden{
     visibility: hidden;
     position: absolute;
@@ -179,13 +182,13 @@ h2{
     gap: var(--secondary-gap);
     margin: 3rem 0 3rem 0;
 }
-#row-2{
+#row-2, #row-3{
     display: flex;
     flex-direction: row;
     gap: 3rem;
     width: 100%;
 }
-#row-2 div{
+#row-2 div, #row-3 div{
     flex: 1;
 }
 #row-3 .row-contents{
@@ -219,6 +222,40 @@ h2{
     white-space: nowrap;
 }
 
+/* Overview */
+.overview{
+    /* background-color: var(--low-contrast-bg); */
+    border: 0.5px solid var(--default-blue);
+    padding: 2rem;
+    border-radius: 2rem;
+}
+.overview p{
+    font-size: 1.3rem;
+    line-height: 1.75rem;
+    color: var(--low-contrast-fg);
+    max-width: 90%;
+}
+.overview .p-strong{
+    color: var(--default-purple);
+    font-family: InterDisplay-Bold;
+}
+
+/* Button cluster styling */
+#button-cluster{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+.button-cluster-button{
+    font-size: 1.3rem;
+    padding: 1rem;
+    background-color: var(--low-contrast-bg);
+    border-radius: 20rem;
+    color: var(--low-contrast-fg);
+    text-decoration: none;
+}
+
 /* Mobile Specific */
 @media (max-width: 768px) {
     /* mobile styling here. delete if none */
@@ -230,8 +267,11 @@ h2{
         align-items: start;
         margin-left: 1rem;
     }
-    #row-2{
+    #row-2, #row-3{
         flex-direction: column;
         gap: var(--mobile-master-gap);
+    }
+    #row-3 .row-contents{
+        max-width: 100%;
     }
 }

@@ -283,6 +283,7 @@
     const clusterItems = document.querySelectorAll('.cluster-item');
 
     function manageCluster(){
+        
         let theseClusterItems = sections[currentSection].querySelectorAll('.cluster-item');
         let thisHeader = headers[currentSection];
         let thisBoolArray = clusterBooleanArrays[`cluster${currentSection-1}`];

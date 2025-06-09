@@ -12,12 +12,12 @@
     // stores the data sorted by prompt
     const sortedData = {};
 
-    const totalResponsesByCategory = [];
-    let totalResponses = 0;
-
     // Initialize Parse
     Parse.initialize("cyVXM5WPBfjRlMKP9Uk0av2GkD0uh8UGHcqOfZn0", "Xt9nH0lavO2iBdF3x0Aqf8cAA8wmMOVL5RDFVpms");
     Parse.serverURL = 'https://parseapi.back4app.com/';
+
+    const totalResponsesByCategory = [];
+    let totalResponses = 0;
 
     document.addEventListener('DOMContentLoaded', () => {
 
@@ -25,11 +25,14 @@
 
         const Answer = Parse.Object.extend("Answer");
         const query = new Parse.Query(Answer);
+        query.limit(2000);
 
         query.find()
         .then((results) => { // everything handling data from back4app must go inside this async function
 
             results.forEach((answer, index) => {
+
+                console.log(answer, index);
             
                 const prompt = answer.get("prompt");
                 const response = answer.get("response");
@@ -38,8 +41,7 @@
                 data[index] = {};
                 data[index].prompt = prompt;
                 data[index].response = response;
-
-                console.log(results);
+                
 
             });
 
@@ -56,7 +58,6 @@
 
                 // Push each response to the corresponding array
                 sortedData[thisPrompt].push(thisResponse);
-                console.log[thisResponse];
 
             });
 
@@ -101,6 +102,7 @@
 
 
             // Process user optimism data
+            // this is easier to do before countedResponses gets sorted below
             let numberOfOptimistic = countedResponses[0].optimistic;
             let numberOfPessimistic = countedResponses[0].pessimistic;
             let percentOptimistic = ( numberOfOptimistic / (numberOfOptimistic + numberOfPessimistic) * 100);
@@ -138,7 +140,7 @@
 
             });
 
-            // Populate page
+            // Populate and Style page
 
             // Response displays
             const responseCountDisplays = document.querySelectorAll('.response-count-display');
@@ -150,15 +152,17 @@
             console.log(topCategoricalResponses);
             const categoryLists = document.querySelectorAll('.category-list');
             const rgbValues = [
-                '92, 255, 122', 
-                '255, 105, 66',
-                '186, 117, 255'
+                '92, 255, 122', // reasons for optimistic
+                '255, 105, 66', // reasons for pessimistic
+                '186, 117, 255' // want to see more of
             ];
             const maxValues = [];
+
             // get the maximum frequencies for each prompt
             Object.keys(topCategoricalResponses).forEach((_, index) => {
                 maxValues.push(topCategoricalResponses[index+1][0][1]); // topCategoricalResponses begins with a 1
             });
+
             console.log(maxValues);
             categoryLists.forEach((list, index) => {
 
@@ -180,6 +184,8 @@
                     newLi.append(newTitleSpan);
                     newLi.append(newIndexSpan);
                     newLi.classList.add('category-item');
+                    newLi.classList.add('default-on-hover');
+
                     list.append(newLi);
                     newLi.style.backgroundColor = thisFillColor;
                 });
