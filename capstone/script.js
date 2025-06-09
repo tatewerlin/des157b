@@ -376,6 +376,9 @@
     function afterDataSubmitted(){
 
         const endPrompt = document.querySelector('#end-prompt');
+        if (document.querySelector('body').classList.contains('body-mobile-cluster-screen')){
+            document.querySelector('body').classList.remove('body-mobile-cluster-screen');
+        }
 
         // display the endPrompt
         endPrompt.classList.replace('hidden', 'visible');

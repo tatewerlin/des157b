@@ -31,8 +31,6 @@
         .then((results) => { // everything handling data from back4app must go inside this async function
 
             results.forEach((answer, index) => {
-
-                console.log(answer, index);
             
                 const prompt = answer.get("prompt");
                 const response = answer.get("response");
@@ -157,18 +155,32 @@
                 '186, 117, 255' // want to see more of
             ];
             const maxValues = [];
+            const minValues = [];
 
             // get the maximum frequencies for each prompt
             Object.keys(topCategoricalResponses).forEach((_, index) => {
-                maxValues.push(topCategoricalResponses[index+1][0][1]); // topCategoricalResponses begins with a 1
+
+                let finalItemIndex = topCategoricalResponses[index+1].length - 1;
+
+                // REMEMBER: topCategoricalResponses begins with a 1
+                // push the last of the top n frequencies
+                minValues.push(topCategoricalResponses[index+1][finalItemIndex][1]);
+
+                // push the first of the top n frequencies
+                maxValues.push(topCategoricalResponses[index+1][0][1]);
+
             });
 
             console.log(maxValues);
+            console.log(minValues);
             categoryLists.forEach((list, index) => {
 
                 topCategoricalResponses[index+1].forEach(item => {
 
-                    let thisAlphaValue = (1/maxValues[index] * item[1]);
+                    // Use this for a normalization on the range 0 to maxValue: (1/(maxValues[index] + maxValues[index])/2 * item[1]);
+                    // Use this for a normalization on the range minValue to maxValue: (item[1] - minValues[index]) / (maxValues[index] - minValues[index])+0.1;
+                    // Below is a normalization of alpha 0.1 to 1 onto minValue to maxValue
+                    let thisAlphaValue = 0.1 + (item[1] - minValues[index]) * (0.9 / (maxValues[index] - minValues[index]));
                     console.log(thisAlphaValue);
                     let thisFillColor = `rgb(${rgbValues[index]}, ${thisAlphaValue})`;
 
