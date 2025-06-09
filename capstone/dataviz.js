@@ -192,6 +192,7 @@
 
                     const newIndexSpan = document.createElement('span');
                     newIndexSpan.textContent = item[1];
+                    newIndexSpan.classList.add('category-item-count')
 
                     newLi.append(newTitleSpan);
                     newLi.append(newIndexSpan);

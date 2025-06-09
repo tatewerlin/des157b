@@ -274,4 +274,10 @@ h2{
     #row-3 .row-contents{
         max-width: 100%;
     }
+    h1{
+        max-width: 90%;
+    }
+    h2{
+        max-width: 90%;
+    }
 }
