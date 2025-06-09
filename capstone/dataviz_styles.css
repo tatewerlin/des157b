@@ -191,9 +191,6 @@ h2{
 #row-2 div, #row-3 div{
     flex: 1;
 }
-#row-3 .row-contents{
-    max-width: 60%;
-}
 .row-contents{
     display: flex;
     flex-direction: column;
@@ -254,6 +251,16 @@ h2{
     border-radius: 20rem;
     color: var(--low-contrast-fg);
     text-decoration: none;
+}
+
+#page-info{
+    color: var(--low-contrast-fg);
+    font-family: InterDisplay-Light;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Mobile Specific */
