@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Case Study Template - put your title here</title>
+
+    <!--/ /-------- Normalize CSS --------/ /-->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+	
+	<!--/ /-------- Google Fonts --------/ /-->
+    <!-- add any google fonts you want to use -->
+	
+	<!--/ /-------- Font Awesome --------/ /-->
+    <!--Add this if you want icons from font awesome
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">-->
+	
+	<!--/ /-------- Your Styles --------/ /-->
+	<link href="styles.css" rel="stylesheet">
+	
+	<!--/ /-------- Needed For Mobile Devices --------/ /-->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <header id="top">
+        <div class="container">
+            <h1>Future Optimism</h1>
+            <p>Tate Werlin</p>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#overview">overview</a></li>
+            <li><a href="#research">research</a></li>
+            <li><a href="#design">design</a></li>
+            <li><a href="#ui">user interface</a></li>
+            <li><a href="#revisions">revisions</a></li>
+            <li><a href="#summary">summary</a></li>
+        </ul>
+    </nav>
+
+    <!--/ /-------- Overview Section --------/ /-->
+    <section id="overview">
+        <div class="container">
+            <h2>Project Overview</h2>
+            <img src="images/user-flow.jpg" class="big-image">
+            <div class="content">
+                <p>The Future Optimism capstone project seeks to provide a reflective experience surrounding our feelings about the future, what causes them, and what might cause them to change.</p>
+
+                <p>With a strong focus on user interface design, the project functions as a simple survey, concluding with a data visualization summarizing inputs from all users.</p>
+                    
+                <p>The target audience for this project is young adults who may just be beginning to have their first meaningful impacts on the world they live in. The goal of the project is to inspire in this audience an assessment of their future.</p>
+            </div>
+        </div>
+    </section>
+
+    <!--/ /-------- UX Research Section --------/ /-->
+    <section id="research">
+        <div class="container">
+            <h2>Project Research</h2>
+            <div class="content">
+                <p>This project was primarily experimental and did not rely heavily on research. Most research conducted for this project revolved around usability and interactivity. Multiple peer feedback disucssions were conducted to discuss the direction of the project. I learned a lot from these discussions, and switched tracks multiple times as a result.</p>
+
+                <p>Early ideas for the project presented in these discussions explored the elicitation of emotional responses from the viewer, using troubling or uplifting messages and visual cues based on if the user had selected 'dystopia' or 'utopia,' respectively. Those interviewed found this concept confusing and pointless. From there, I drafted ideas for a data visualization that presented user-provided responses across time, allowing for the emergence of patterns in user optimism about the future on a weekly or monthly basis. Discussions about this idea revealed the fact that there wouldn't be enough time to generate organic data for the presentation of the project, and fell outside the scope of what was possible in the project's timeframe.</p>
+
+                <img src="images/sketch-2.jpg">
+            </div>
+        </div>
+    </section>
+
+    <!--/ /-------- Design Section --------/ /-->
+    <section id="design">
+        <div class="container">
+            <h2>Visual Design</h2>
+            <div class="content">
+                <img src="images/sketch-1.jpg">
+                <div>
+                    <p>The idea behind the color palette was to make it as simple as possible to remove any distraction to the reflective experience. Early versions of the survey featured a black-on-yellow palette, but I determined this to be too harsh and inconsistent with the calm undertones of the overarching narrative.</p>
+                    <img src="images/old-color-palette.jpg">
+                </div>
+
+                <p>The final color palette makes use of various shades of blue to due to the association of the color with calmness and tranquility. Green and red are used in the final data visualization to denote optimism and pessimism, respectively, further leveraging color associations. The contrast between colors was kept intentionally low so as not to give a high-energy feel to the page, but some reviewers felt that this came at too great a cost of readability, an issue that I will address in any further iterations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!--/ /-------- UI Section --------/ /-->
+    <section id="ui">
+        <div class="container">
+            <h2>User Interface</h2>
+            <div class="content">
+                <div class="column">
+                    <p>The user flow through the project is direct and mandatory, featuring the minumum number of navigational elements. The user is placed directly into the survey, with the landing screen being the first question. From there, clicking the forward arrow will advance the user to the next question until they arrive at the final data visualization, on the bottom of which they will find a button which directs them back to the survey to submit additional responses.</p>
+
+                    <p>A key challenge to this project was managing the cognitive load of the second and third prompt options. I wanted the user to be able to provide a wide, comprehensive range of responses to these questions without using a text input. A cluster of selectable cells seemed to be one of the best options as it did not obfuscate options like a scroll window might have and easily flexed to fit various screen sizes. During the final presentation, however, multiple reviewers expressed their concerns about this approach, specifically pointing to the jump from the two options available for the first prompt and the dozens that appeared when moving to the second. Some means of further lightening the cognitive load, especially in this transition, will be explored in any future iterations.</p>
+                </div>
+
+                <div class="column">
+                </div>
+                <div>
+                    <img src="images/screen-1.jpg">
+                    <img src="images/screen-2.jpg">
+                    <img src="images/screen-3.jpg">
+                    <img src="images/screen-4.jpg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--/ /-------- Revisions Section --------/ /-->
+    <section id="revisions">
+        <div class="container">
+            <h2>Revisions</h2>
+            <div class="content">
+                <p>The final presentation yielded a great deal of helpful feedback in addition to that which has already been discussed. The most addressed issue in this user feedback was about the afformentioned cognitive load of the transition between the first and second prompts in the survey. This would be the first thing to ammend in further revisions.</p>
+
+                <p>Another of the most notable critiques of this project was the notion that the data presented in the visualization is interesting, but impersonal, and did not give the user enough back for the time and effort they put into responding to the prompts. One idea to address this would be to compare user inputs against the top responses, showing where their answers ranked or stacked up against those of others. Another idea from a reviewer was to provide a sort of profile to the user after submitting their responses, that showed things like their top categories or what types of issues seemed to be the most important to them. Such additions would make the experience feel more tailored to each user and provide a deeper reflection, increasing the success of the project.</p>
+
+                <p>Smaller issues to be fixed in revisions moving forward would be to fix color contrast in certain areas, various bugs which appeared during user testing, and provide more navigation options (such as back buttons). These quality of life improvements, though relatively simple, would greatly add to the user enjoyment of this project.</p>
+            </div>
+        </div>
+    </section>
+
+    <!--/ /-------- Summary Section --------/ /-->
+    <section id="summary">
+        <div class="container">
+            <h2>Summary</h2>
+            <div class="content">
+                <p>This project taught me a great deal about the entire process of making a web application. The open ended prompt required lots of work brainstorming, ideating, sketching, and getting peer feedback before writing a line of code. Parellels and divergences between the web design process and processes in other disciplines (branding, product design, etc.) became apparent and I gained alot from reflecting on these.</p>
+
+                <p>I put an incredible amount of time into building a solid user interface in this project, tweaking colors, creating various element states, and troubleshooting bugs. I wanted the experience to be as smooth as possible and never to break. Perhaps some of this time could have been alotted to making the data visualization feel more personal or complete, but I am quite happy with how it all turned out.</p>
+
+                <p>The most challenging (and therefore rewarding) part of this process was building the code that manipulated user data into the final visualization. Parsing, ordering, and sorting data stored in nested JavaScript arrays and objects was a process fell entirely outside of my comfort zone, but presented a learning opportunity as a result.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Future Optimism</p>
+            <p>Tate Werlin</p>
+            <p><a href="#top" class="cell">top</a></p>
+        </div>
+    </footer>
+    
+</body>
+</html>

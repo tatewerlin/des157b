@@ -1,0 +1,127 @@
+:root{
+
+    /* Color */
+    --default-dark: #0b0c0b;
+    --default-yellow: #fffb05;
+    --default-green: rgb(92, 255, 122);
+    --default-light-blue: #aee8ff;
+    --default-blue: #446df6;
+    --default-orange: rgb(255, 104, 66);
+    --default-purple: rgb(186, 117, 255);
+    --low-contrast-bg: rgba(44, 32, 208, 0.1);
+    --low-contrast-fg: rgba(44, 32, 208, 0.4);
+
+}
+@font-face { 
+    font-family: "InterRegular"; 
+    font-style: normal; 
+    font-weight: 500; 
+    font-display: swap; 
+    src: url("../../fonts/Inter-Regular.woff2") format("woff2"); 
+}
+@font-face { 
+    font-family: "InterDisplay-Bold"; 
+    font-style: normal; 
+    font-weight: 700; 
+    font-display: swap; 
+    src: url("../../fonts/InterDisplay-Bold.woff2") format("woff2"); 
+}
+
+/* CSS Resets */
+h1, h2, h3, h4, p, nav ul {
+    padding: 0;
+    margin: 0;
+    font-weight: normal;
+}
+nav ul {
+    list-style-type: none;
+}
+img { max-width: 100%; display: block; }
+* { box-sizing: border-box;}
+
+/* end Resets */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: InterRegular;
+    color: var(--default-blue);
+}
+nav {
+    color: var(--default-dark);
+}
+nav ul li a {
+    text-decoration: none;
+    display: block;
+    color: var(--default-blue);
+    border-bottom: 1px solid var(--low-contrast-bg);
+    text-align: center;
+    padding: 10px;
+}
+
+header{
+    border-bottom: 1px solid var(--low-contrast-bg);
+}
+
+header, section, footer {
+    padding: 20px;
+}
+
+section{
+    border-bottom: 1px solid var(--low-contrast-bg);
+}
+
+.container {
+    max-width: 1000px;
+}
+
+h1, h2 {
+    margin-bottom: .5em;
+    font-family: InterDisplay-Bold;
+}
+h2{
+    color: var(--default-purple);
+}
+
+p {
+    line-height: 1.4em;
+    margin-bottom: 1em;
+}
+
+ol li {
+    margin-bottom: 1em;
+}
+
+img {
+    margin-bottom: 20px;
+}
+
+.big-image{
+    max-width: 33%;
+}
+.cell{
+    padding: 8px 18px;
+    text-decoration: none;
+    color: var(--default-blue);
+    border: 0.5px solid var(--default-blue);
+    border-radius: 10000px;
+}
+
+@media only screen and (min-width: 768px) {
+    nav ul { display: flex; }
+    nav ul li { flex: 1; }
+}
+
+@media only screen and (min-width: 1000px) {
+    .container{ margin: auto; }
+    nav ul {
+        max-width: 1000px;
+        margin: auto;
+    }
+    .content { 
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+    }
+}
